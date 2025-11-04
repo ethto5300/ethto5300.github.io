@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETH TO 5300 - 5300</title>
+    <link rel="icon" type="image/png" href="media/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Jersey+10&family=Press+Start+2P&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="retro.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Work Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #248576;
+            background: radial-gradient(circle, rgba(36, 133, 118, 1) 0%, rgba(0, 0, 0, 1) 59%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* stack hero above the card */
+            justify-content: flex-start;
+            /* keep hero locked below navbar */
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: black;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            width: 80%;
+            max-width: 1200px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .symbol {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price-container {
+            margin: 10px 0;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .price {
+            font-size: 56px;
+            font-weight: 700;
+            color: #f7fafc;
+            margin: 5px 0;
+            transition: color 0.3s ease, transform 0.2s ease;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .price.up {
+            color: #48bb78;
+            transform: scale(1.02);
+        }
+
+        .price.down {
+            color: #f56565;
+            transform: scale(0.98);
+        }
+
+        .price-change {
+            font-size: 18px;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .price-change.positive {
+            color: #48bb78;
+        }
+
+        .price-change.negative {
+            color: #f56565;
+        }
+
+        /* Live connection indicator dot */
+        .connection-dot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fbbf24;
+            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+            animation: pulse-yellow 2s infinite;
+            z-index: 1000;
+        }
+
+        .connection-dot.connected {
+            background: #48bb78;
+            animation: pulse-green 2s infinite;
+        }
+
+        .connection-dot.connecting {
+            background: #fbbf24;
+            animation: pulse-yellow 2s infinite;
+        }
+
+        .connection-dot.disconnected {
+            background: #fbbf24;
+            animation: pulse-yellow 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(72, 187, 120, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+            }
+        }
+
+        @keyframes pulse-yellow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+            }
+        }
+
+        .loading {
+            color: #cbd5e0;
+            font-size: 18px;
+        }
+
+        .timestamp {
+            color: #cbd5e0;
+            font-size: 11px;
+            margin-top: auto;
+            padding-top: 8px;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .about-main {
+            margin-bottom: 20px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .about-main h3 {
+            font-family: "Press Start 2P", sans-serif;
+            color: #c9fd06;
+            font-size: 18px;
+            margin-bottom: 16px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .about-main p {
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .about-main h3 {
+                font-size: 14px;
+            }
+
+            .about-main p {
+                font-size: 13px;
+            }
+        }
+
+        /* Standalone hero title */
+        .hero {
+            width: 100%;
+            max-width: 900px;
+            margin: 90px auto 10px;
+            /* leaves room for fixed navbar */
+            text-align: center;
+            color: #f7fafc;
+        }
+
+        .hero h1 {
+            font-size: 150px;
+            line-height: 1.2;
+            color: #c9fd06;
+            -webkit-text-stroke: 3px #0f4f99;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+            font-family: "Press Start 2P", sans-serif;
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            height: 3px;
+            background: repeating-linear-gradient(90deg,
+                    #0654fd 0px,
+                    #c9fd06 8px,
+                    transparent 8px,
+                    transparent 16px);
+            background-size: 16px 100%;
+            border-radius: 2px;
+            animation: moveDashes 2s linear infinite;
+        }
+
+        @keyframes moveDashes {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 16px 0;
+            }
+        }
+
+        @keyframes blinkUnderline {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                margin: 80px auto 10px;
+                padding: 0 20px;
+            }
+
+            .hero h1 {
+                font-size: 60px;
+                -webkit-text-stroke: 2px #0f4f99;
+                line-height: 1.3;
+            }
+
+            .hero h1::after {
+                width: 70%;
+                height: 3px;
+                bottom: -15px;
+            }
+
+            .price {
+            font-size: 30px;
+            font-weight: 700;
+            color: #f7fafc;
+            margin: 5px 0;
+            transition: color 0.3s ease, transform 0.2s ease;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 68px;
+                -webkit-text-stroke: 1.5px #0f4f99;
+            }
+
+            .hero h1::after {
+                width: 60%;
+                height: 2px;
+                bottom: -12px;
+            }
+        }
+
+        .hero .symbol-standalone {
+            margin-top: 6px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #e2e8f0;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            /* brand | links (centered) | toggle */
+            align-items: center;
+            padding: 0 20px;
+            background: #4b2485;
+            background: radial-gradient(circle, rgba(75, 36, 133, 1) 0%, rgba(0, 0, 0, 1) 59%);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            z-index: 1000;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.613);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            font-family: "Press Start 2P", sans-serif;
+        }
+
+        .nav-brand .logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: inline-block;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-link {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 100;
+            font-size: 11px;
+            font-family: "Press Start 2P", sans-serif;
+            letter-spacing: 0.1px;
+            word-spacing: -7px;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+        }
+
+        .nav-cta {
+            background: #48bb78;
+            color: #0f172a;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 800;
+            text-decoration: none;
+            font-family: "Press Start 2P", sans-serif;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-self: end;
+        }
+
+        .nav-base-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .nav-cta-mobile {
+            display: none;
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        @media (max-width: 720px) {
+            .nav {
+                height: 56px;
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+                width: 38px;
+                height: 38px;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .nav-toggle span {
+                width: 18px;
+                height: 2px;
+                background: #ffffff;
+                position: relative;
+                display: inline-block;
+            }
+
+            .nav-toggle span::before,
+            .nav-toggle span::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 18px;
+                height: 2px;
+                background: #ffffff;
+            }
+
+            .nav-toggle span::before {
+                top: -6px;
+            }
+
+            .nav-toggle span::after {
+                top: 6px;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 56px;
+                right: 12px;
+                left: 12px;
+                flex-direction: column;
+                background: rgba(26, 32, 44, 0.95);
+                padding: 12px;
+                border-radius: 12px;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                transform: none;
+            }
+
+            .nav.open .nav-links {
+                display: flex;
+            }
+
+            .nav-cta-right {
+                display: none;
+            }
+
+            .nav-cta-mobile {
+                display: inline-block;
+            }
+        }
+
+        /* Target progress bar */
+        .target-wrapper {
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        .target-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #f7fafc;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #000;
+            border: 1px dashed #ffffff;
+            position: relative;
+            box-shadow:
+                inset 0 0 0 1px #0f4f99,
+                0 0 4px rgba(201, 253, 6, 0.3);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: repeating-linear-gradient(90deg,
+                    #0f4f99 0px,
+                    #0f4f99 4px,
+                    #48bb78 4px,
+                    #48bb78 8px,
+                    #c9fd06 8px,
+                    #c9fd06 12px);
+            background-size: 12px 100%;
+            transition: width 0.4s ease;
+            position: relative;
+            box-shadow:
+                inset 0 0 4px rgba(0, 0, 0, 0.5),
+                0 0 8px rgba(201, 253, 6, 0.6);
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg,
+                    #0f4f99 0px,
+                    #0f4f99 4px,
+                    #48bb78 4px,
+                    #48bb78 8px,
+                    #c9fd06 8px,
+                    #c9fd06 12px);
+            background-size: 12px 100%;
+            animation: progressFillLoop 2s ease-in-out infinite;
+            transform-origin: left;
+        }
+
+        @keyframes progressFillLoop {
+            0% {
+                transform: scaleX(0);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleX(0);
+                opacity: 0.8;
+            }
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: repeating-linear-gradient(90deg,
+                    #0f4f99 0px,
+                    #0f4f99 4px,
+                    #48bb78 4px,
+                    #48bb78 8px,
+                    #c9fd06 8px,
+                    #c9fd06 12px);
+            background-size: 12px 100%;
+            background-position: 0 0;
+            transition: width 0.4s ease;
+            position: relative;
+            box-shadow:
+                inset 0 0 4px rgba(0, 0, 0, 0.5),
+                0 0 8px rgba(201, 253, 6, 0.6);
+            overflow: hidden;
+            animation: progressBarMove 2s linear infinite;
+        }
+
+        @keyframes progressBarMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 12px 0;
+            }
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg,
+                    rgba(201, 253, 6, 0.6) 0px,
+                    rgba(201, 253, 6, 0.6) 4px,
+                    rgba(72, 187, 120, 0.6) 4px,
+                    rgba(72, 187, 120, 0.6) 8px,
+                    rgba(15, 79, 153, 0.6) 8px,
+                    rgba(15, 79, 153, 0.6) 12px);
+            background-size: 12px 100%;
+            animation: progressFillWave 2s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes progressFillWave {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateX(0%);
+                opacity: 0;
+            }
+        }
+
+        .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    transparent 10px,
+                    rgba(255, 255, 255, 0.1) 10px,
+                    rgba(255, 255, 255, 0.1) 11px,
+                    transparent 11px,
+                    transparent 12px);
+            background-size: 12px 100%;
+            z-index: 1;
+        }
+
+        .target-status {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #e2e8f0;
+        }
+
+        .reached {
+            color: #22543d;
+            background: #c6f6d5;
+            border-radius: 8px;
+            padding: 6px 10px;
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* About section */
+        .about-section,
+        .tokenomics-section,
+        .how-to-buy-section {
+            width: 80%;
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            padding: 0 20px;
+        }
+
+        .about-section-content {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .about-section-left,
+        .about-section-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-section-left {
+            justify-content: center;
+        }
+
+        .video-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reward-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reward-info h3 {
+            font-family: "Press Start 2P", sans-serif;
+            color: #c9fd06;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .reward-info p {
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .reward-info .small-text {
+            font-size: 12px;
+            color: #cbd5e0;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .reward-stats {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .reward-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 0;
+        }
+
+        .reward-stat-label {
+            color: #cbd5e0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .reward-stat-value {
+            color: #c9fd06;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: "Press Start 2P", sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .about-section-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .reward-info h3 {
+                font-size: 16px;
+            }
+
+            .reward-info p {
+                font-size: 13px;
+            }
+            .reward-stat-value {
+            color: #c9fd06;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: "Press Start 2P", sans-serif;
+        }
+        }
+
+        .about-section h2,
+        .tokenomics-section h2,
+        .how-to-buy-section h2 {
+            font-family: "Press Start 2P", sans-serif;
+            color: #c9fd06;
+            -webkit-text-stroke: 2px #0f4f99;
+            font-size: 62px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .about-section h2::after,
+        .tokenomics-section h2::after,
+        .how-to-buy-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            height: 3px;
+            background: repeating-linear-gradient(90deg,
+                    #0654fd 0px,
+                    #c9fd06 8px,
+                    transparent 8px,
+                    transparent 16px);
+            background-size: 16px 100%;
+            border-radius: 2px;
+            animation: moveDashes 2s linear infinite;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .video-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f4f99 0%, #1a5499 50%, #0f4f99 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-thumbnail.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(201, 253, 6, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(201, 253, 6, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 10;
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 6px 30px rgba(201, 253, 6, 0.7);
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 24px solid #0f4f99;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            margin-left: 4px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+
+        .video-wrapper.loaded iframe {
+            display: block;
+        }
+
+        .tokenomics-content,
+        .how-to-buy-content {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tokenomics-info,
+        .how-to-buy-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tokenomics-info h3,
+        .how-to-buy-info h3 {
+            font-family: "Press Start 2P", sans-serif;
+            color: #c9fd06;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tokenomics-info p,
+        .how-to-buy-info p {
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .how-to-buy-info ol {
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        .how-to-buy-info li {
+            margin-bottom: 16px;
+            list-style-position: outside;
+        }
+
+        .how-to-buy-info li strong {
+            color: #c9fd06;
+        }
+
+        .how-to-buy-item {
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .how-to-buy-item-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #e2e8f0;
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+
+        .how-to-buy-item-header:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .how-to-buy-item-header strong {
+            color: #c9fd06;
+            font-size: 14px;
+            font-family: "Press Start 2P", sans-serif;
+            flex: 1;
+        }
+
+        .how-to-buy-item-icon {
+            color: #c9fd06;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            margin-left: 12px;
+        }
+
+        .how-to-buy-item.active .how-to-buy-item-icon {
+            transform: rotate(90deg);
+        }
+
+        .how-to-buy-item-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 20px;
+        }
+
+        .how-to-buy-item.active .how-to-buy-item-content {
+            max-height: 500px;
+            padding: 0 20px 16px 20px;
+        }
+
+        .how-to-buy-item-text {
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.8;
+            padding-top: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding: 40px 20px;
+            background: rgba(75, 36, 133, 0.3);
+            border-top: 2px dashed rgba(255, 255, 255, 0.3);
+            width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .footer-logo-text {
+            font-family: "Press Start 2P", sans-serif;
+            color: #c9fd06;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .footer-link {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+            font-family: "Press Start 2P", sans-serif;
+            font-weight: 100;
+            transition: color 0.3s ease;
+            letter-spacing: 0.1px;
+        }
+
+        .footer-link:hover {
+            color: #c9fd06;
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e0;
+            font-size: 12px;
+        }
+
+        .footer-info p {
+            margin: 5px 0;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .footer-social-link {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+            font-family: "Press Start 2P", sans-serif;
+            font-weight: 100;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social-link:hover {
+            color: #c9fd06;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .footer-logo {
+                justify-content: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .footer-social {
+                justify-content: center;
+            }
+        }
+
+        .tokenomics-stats {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tokenomics-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px 0;
+        }
+
+        .tokenomics-stat-label {
+            color: #cbd5e0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .tokenomics-stat-value {
+            color: #c9fd06;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: "Press Start 2P", sans-serif;
+        }
+
+        @media (max-width: 768px) {
+
+            .about-section,
+            .tokenomics-section {
+                margin: 0px auto 0px;
+                padding: 0px;
+                width: 100%;
+            }
+
+            .about-section h2,
+            .tokenomics-section h2,
+            .how-to-buy-section h2 {
+                font-size: 24px;
+                -webkit-text-stroke: 1.5px #0f4f99;
+            }
+
+            .about-section h2::after,
+            .tokenomics-section h2::after,
+            .how-to-buy-section h2::after {
+                width: 70%;
+                height: 2px;
+            }
+
+            .tokenomics-content,
+            .how-to-buy-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .tokenomics-info h3,
+            .how-to-buy-info h3 {
+                font-size: 16px;
+            }
+
+            .tokenomics-info p,
+            .how-to-buy-info p,
+            .how-to-buy-info ol {
+                font-size: 13px;
+            }
+
+            .how-to-buy-item-header {
+                padding: 12px 16px;
+            }
+
+            .how-to-buy-item-header strong {
+                font-size: 12px;
+            }
+
+            .how-to-buy-item-text {
+                font-size: 13px;
+            }
+
+            .how-to-buy-item-content {
+                padding: 0 16px;
+            }
+
+            .how-to-buy-item.active .how-to-buy-item-content {
+                padding: 0 16px 12px 16px;
+            }
+            .how-to-buy-section {
+            width: 100%;
+            margin: 80px auto 40px;
+            padding: 0 20px;
+        }
+        }
+
+        @media (max-width: 480px) {
+
+            .about-section,
+            .tokenomics-section,
+            .how-to-buy-section {
+                margin: 50px auto 20px;
+            }
+
+            .about-section h2,
+            .tokenomics-section h2,
+            .how-to-buy-section h2 {
+                font-size: 20px;
+                -webkit-text-stroke: 1px #0f4f99;
+            }
+
+            .about-section h2::after,
+            .tokenomics-section h2::after,
+            .how-to-buy-section h2::after {
+                width: 60%;
+                height: 2px;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-button::after {
+                border-left-width: 18px;
+                border-top-width: 10px;
+                border-bottom-width: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav" id="nav">
+        <div class="nav-brand">
+            <img src="media/logo.png" alt="ETH TO 5300 logo" class="logo" />
+            <span>ETH TO 5300</span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a class="nav-link" href="#">Main</a>
+            <a class="nav-link" href="#about">About</a>
+            <a class="nav-link" href="#tokenomics">Tokenomics</a>
+            <a class="nav-link" href="#how-to-buy">Why & How to Buy</a>
+
+            <a class="nav-cta nav-cta-mobile" href="#buy">Buy $5300</a>
+        </div>
+        <div class="nav-right">
+            <a class="nav-cta nav-cta-right" href="#buy">Buy $5300</a>
+            <img src="media/basechainlogo.png" alt="Base Chain" class="nav-base-logo" />
+
+            <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation"><span></span></button>
+        </div>
+    </nav>
+    <div class="hero">
+        <h1>5300</h1>
+    </div>
+    <div class="container">
+        <div class="about-main">
+            <h3>What is ETH to $5300?</h3>
+            <p>ETH TO $5300 is a meme focused around the meta that ETH will soon pump to 5300. While taking this
+                probability into consideration we created a coin on ETH (base) that has a 1% tax that is directly
+                distributed among holders as WETH rewards. With the hope and faith that ETH will pump to 5300 to its
+                ATH.</p>
+        </div>
+
+        <div class="price-container">
+            <div id="price" class="price loading">Loading...</div>
+            <div id="priceChange" class="price-change"></div>
+
+            <div class="target-wrapper">
+                <div class="target-header">
+                    <span>Target</span>
+                    <span id="targetValue">$5,300.00</span>
+                </div>
+                <div class="progress" aria-label="Target progress">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="targetStatus" class="target-status">0% toward target</div>
+                <div id="targetReached" class="reached" style="display:none;">Target reached!</div>
+            </div>
+        </div>
+
+        <div id="timestamp" class="timestamp"></div>
+    </div>
+    <div id="connectionDot" class="connection-dot connecting"></div>
+
+    <section id="about" class="about-section">
+        <h2>About</h2>
+        <div class="about-section-content">
+            <div class="about-section-left">
+                <div class="video-container">
+                    <div class="video-wrapper" id="videoWrapper">
+                        <div class="video-thumbnail" id="videoThumbnail">
+                            <img src="media/noise.gif" alt="ETH TO 5300 Video Thumbnail"
+                                onerror="this.style.display='none'">
+                            <div class="play-button"></div>
+                        </div>
+                        <iframe id="videoFrame" src="" title="ETH TO 5300 - About Video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="about-section-right">
+                <div class="reward-info">
+                    <h3>Reward System</h3>
+                    <p>Our token has just a 1% tax on both buy and sell transactions. This tax is solely distributed as
+                        rewards to all holders.</p>
+                    <p class="small-text">Just 5300 tokens are enough to get rewarded from the coin.</p>
+                    <p class="small-text">Because we expect to pump and to reflect the narrative, our reward token is
+                        ETH.</p>
+                    <div class="reward-stats">
+                        <div class="reward-stat">
+                            <span class="reward-stat-label">Total ETH Distributed</span>
+                            <span class="reward-stat-value" id="totalEth">0.00 ETH</span>
+                        </div>
+                        <div class="reward-stat">
+                            <span class="reward-stat-label">Dollar Value</span>
+                            <span class="reward-stat-value" id="totalEthValue">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tokenomics" class="tokenomics-section">
+        <h2>Tokenomics</h2>
+        <div class="mycontainer">
+            <p>&nbsp;&nbsp;CEEFAX 1 324 Thu 23 Jul 1988
+            <div id="clock"></div>
+            </p>
+            <img class="bbc" src="./media/tokenomics.png" alt="" />
+            <p class="yellow"><span class="downabit">&nbsp;PREMIER LEAGUE TABLE 1987/88</span></p>
+            <p>&nbsp;</p>
+            <p>&nbsp;&nbsp;&nbsp;Jul
+                23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P&nbsp;&nbsp;W&nbsp;D&nbsp;L&nbsp;&nbsp;F&nbsp;&nbsp;A&nbsp;Pts
+            </p>
+            <p>&nbsp;</p>
+            <p>&nbsp;<span class="green">C</span>&nbsp;<span class="white">1
+                    Bitcoin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 32 2 4 95 23 98<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="cyan">2 Ethereum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 30 3 1 89 22
+                    97<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="white">3 Thether&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 21 0 8 63 39
+                    96<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="cyan">4
+                    XRP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 22 3 9 39 42 94<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="white">5
+                    BNB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 28 1 8 53 47 90<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="cyan">6 Solana&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 24 2 6 43
+                    54 88<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="white">7
+                    USDC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38 28 4 4 53 47 86<span></p>
+            <p>&nbsp;&nbsp;&nbsp;<span class="cyan">8 TRON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38
+                    23 3 7 43 54 84<span></p>
+            <p>&nbsp;</p>
+            <p class="green">&nbsp;BITCOIN CITY ARE THE PREMIER LEAGUE</p>
+            <p class="green">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    class="blinking">CHAMPIONS</span></p>
+            <p>&nbsp;</p>
+            <p><span class="doblue yellow">&nbsp;LOCK<span class="white">&nbsp;365 D</span><span
+                        class="yellow">&nbsp;TEAM</span><span class="white">&nbsp;2%</span><span
+                        class="yellow">&nbsp;LP</span><span class="white">&nbsp;0.5e</span><span
+                        class="yellow">&nbsp;TAX&nbsp;</span>
+                    <spann class="white">1%&nbsp;
+                </span>
+                </span></p>
+            <p>&nbsp;</p>
+            <p><span class="red">Owner Error&nbsp;&nbsp;&nbsp;</span><span class="green">No
+                    MW&nbsp;&nbsp;&nbsp;</span><span class="yellow">Rewards&nbsp;&nbsp;&nbsp;</span><span
+                    class="blue">wETH</span></p>
+            <p>&nbsp;</p>
+            <p class="contract-address-wrapper" style="word-spacing: -2px;">
+                <span class="yellow">Contract(click to copy):</span>
+                <span id="contractAddress" class="contract-address white">0xAbB7b059b20aC1557a302dA3955F841C35df5300</span>
+            </p>
+        </div>
+    </section>
+
+    <section id="how-to-buy" class="how-to-buy-section">
+        <h2>Why & How to Buy</h2>
+        <div class="how-to-buy-content">
+            <div class="how-to-buy-info">
+                <div class="how-to-buy-item">
+                    <div class="how-to-buy-item-header">
+                        <strong>1. Based on research and analysis</strong>
+                        <span class="how-to-buy-item-icon">▶</span>
+                    </div>
+                    <div class="how-to-buy-item-content">
+                        <div class="how-to-buy-item-text">
+                            We are convinced that ETH should pump up to at least $5,300. 
+                            According to the charts, we're just about to start the ETH rally. This meme combines the prediction of 
+                            Benjamin Cowen (as shown in the video above) with creating a meme on Base - $5300.
+                        </div>
+                    </div>
+                </div>
+                <div class="how-to-buy-item">
+                    <div class="how-to-buy-item-header">
+                        <strong>2. Better than just expecting ETH to pump</strong>
+                        <span class="how-to-buy-item-icon">▶</span>
+                    </div>
+                    <div class="how-to-buy-item-content">
+                        <div class="how-to-buy-item-text">
+                            What would be better than expecting ETH to pump 
+                            to $5,300? Buy a token that's paired with ETH and gives rewards on volume to all holders - fully 
+                            decentralized and fully automated rewards in wETH.
+                        </div>
+                    </div>
+                </div>
+                <div class="how-to-buy-item">
+                    <div class="how-to-buy-item-header">
+                        <strong>3. Low tax with full transparency</strong>
+                        <span class="how-to-buy-item-icon">▶</span>
+                    </div>
+                    <div class="how-to-buy-item-content">
+                        <div class="how-to-buy-item-text">
+                            Taxed projects are not generally loved, but what's the 
+                            difference here? We only have 1% tax on buy/sell, so the token is almost tax-free. Most importantly, 
+                            all collected tax from trading volume gets distributed back to holders - no maximum wallet, no marketing wallet.
+                        </div>
+                    </div>
+                </div>
+                <div class="how-to-buy-item">
+                    <div class="how-to-buy-item-header">
+                        <strong>4. Get ETH on Base</strong>
+                        <span class="how-to-buy-item-icon">▶</span>
+                    </div>
+                    <div class="how-to-buy-item-content">
+                        <div class="how-to-buy-item-text">
+                            Open your favorite exchange and withdraw the amount of ETH you wish 
+                            to Base, sending it to your decentralized wallet address.
+                        </div>
+                    </div>
+                </div>
+                <div class="how-to-buy-item">
+                    <div class="how-to-buy-item-header">
+                        <strong>5. Swap on Uniswap</strong>
+                        <span class="how-to-buy-item-icon">▶</span>
+                    </div>
+                    <div class="how-to-buy-item-content">
+                        <div class="how-to-buy-item-text">
+                            Navigate to <a href="https://app.uniswap.org/" target="_blank" rel="noopener" style="color: #c9fd06; text-decoration: underline;">https://app.uniswap.org/</a>, 
+                            paste the contract address found in the tokenomics section, and swap some ETH for $5300 tokens.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple mobile nav toggle
+        (function () {
+            const nav = document.getElementById('nav');
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            if (nav && navToggle && navLinks) {
+                navToggle.addEventListener('click', () => {
+                    nav.classList.toggle('open');
+                });
+                navLinks.querySelectorAll('a').forEach((a) => {
+                    a.addEventListener('click', () => nav.classList.remove('open'));
+                });
+            }
+        })();
+
+        // How to Buy expandable menu functionality
+        (function () {
+            const howToBuyItems = document.querySelectorAll('.how-to-buy-item');
+            howToBuyItems.forEach((item) => {
+                const header = item.querySelector('.how-to-buy-item-header');
+                if (header) {
+                    header.addEventListener('click', () => {
+                        // Toggle active class
+                        item.classList.toggle('active');
+                    });
+                }
+            });
+        })();
+
+        // Contract address copy functionality
+        (function () {
+            const contractAddressElement = document.getElementById('contractAddress');
+            if (contractAddressElement) {
+                const originalAddress = contractAddressElement.textContent.trim();
+                
+                // Format address to show first 5 and last 4 characters
+                const formatAddress = (address) => {
+                    if (address.length <= 9) return address; // If address is too short, return as is
+                    return address.substring(0, 5) + '...' + address.substring(address.length - 4);
+                };
+                
+                const displayAddress = formatAddress(originalAddress);
+                contractAddressElement.textContent = displayAddress;
+                
+                let copyTimeout = null;
+
+                contractAddressElement.style.cursor = 'pointer';
+                contractAddressElement.style.textDecoration = 'underline';
+
+                contractAddressElement.addEventListener('click', async () => {
+                    try {
+                        // Copy to clipboard (full address)
+                        await navigator.clipboard.writeText(originalAddress);
+                        
+                        // Show "Copied" text
+                        contractAddressElement.textContent = 'Copied!';
+                        contractAddressElement.classList.remove('white');
+                        contractAddressElement.classList.add('green');
+
+                        // Clear any existing timeout
+                        if (copyTimeout) {
+                            clearTimeout(copyTimeout);
+                        }
+
+                        // Reset after 3 seconds
+                        copyTimeout = setTimeout(() => {
+                            contractAddressElement.textContent = displayAddress;
+                            contractAddressElement.classList.remove('green');
+                            contractAddressElement.classList.add('white');
+                        }, 3000);
+                    } catch (err) {
+                        console.error('Failed to copy:', err);
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = originalAddress;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            contractAddressElement.textContent = 'Copied!';
+                            contractAddressElement.classList.remove('white');
+                            contractAddressElement.classList.add('green');
+                            
+                            if (copyTimeout) {
+                                clearTimeout(copyTimeout);
+                            }
+                            
+                            copyTimeout = setTimeout(() => {
+                                contractAddressElement.textContent = displayAddress;
+                                contractAddressElement.classList.remove('green');
+                                contractAddressElement.classList.add('white');
+                            }, 3000);
+                        } catch (fallbackErr) {
+                            console.error('Fallback copy failed:', fallbackErr);
+                        }
+                        document.body.removeChild(textArea);
+                    }
+                });
+            }
+        })();
+
+        // Video thumbnail click handler
+        (function () {
+            const videoWrapper = document.getElementById('videoWrapper');
+            const videoThumbnail = document.getElementById('videoThumbnail');
+            const videoFrame = document.getElementById('videoFrame');
+
+            if (videoWrapper && videoThumbnail && videoFrame) {
+                videoWrapper.addEventListener('click', () => {
+                    if (!videoWrapper.classList.contains('loaded')) {
+                        // Load the YouTube video with autoplay
+                        videoFrame.src = 'https://www.youtube.com/embed/iwurmuYjvOM?autoplay=1';
+                        videoWrapper.classList.add('loaded');
+                        videoThumbnail.classList.add('hidden');
+                    }
+                });
+            }
+        })();
+
+        const wsUrl = 'wss://contract.mexc.com/edge';
+        const targetPrice = 5300;
+        let socket = null;
+        let lastPrice = null;
+        let reconnectAttempts = 0;
+        let isConnecting = false;
+        let reconnectTimer = null;
+        const maxReconnectAttempts = 5;
+        const reconnectDelay = 3000;
+
+        const priceElement = document.getElementById('price');
+        const priceChangeElement = document.getElementById('priceChange');
+        const connectionDot = document.getElementById('connectionDot');
+        const timestampElement = document.getElementById('timestamp');
+        const progressFill = document.getElementById('progressFill');
+        const targetStatus = document.getElementById('targetStatus');
+        const targetReached = document.getElementById('targetReached');
+        const targetValue = document.getElementById('targetValue');
+        targetValue.textContent = `$${targetPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+        function updateStatus(status, className) {
+            if (connectionDot) {
+                connectionDot.className = `connection-dot ${className}`;
+            }
+        }
+
+        function updatePrice(price, change, changePercent) {
+            if (lastPrice !== null) {
+                if (price > lastPrice) {
+                    priceElement.classList.remove('down');
+                    priceElement.classList.add('up');
+                } else if (price < lastPrice) {
+                    priceElement.classList.remove('up');
+                    priceElement.classList.add('down');
+                }
+            }
+
+            lastPrice = price;
+            priceElement.textContent = `$${parseFloat(price).toFixed(2)}`;
+            priceElement.classList.remove('loading');
+
+            // Update page title with current price
+            document.title = `ETH TO 5300 - $${parseFloat(price).toFixed(2)}`;
+
+            if (change !== undefined && changePercent !== undefined) {
+                const changeClass = change >= 0 ? 'positive' : 'negative';
+                const changeSign = change >= 0 ? '+' : '';
+                priceChangeElement.textContent = `${changeSign}${parseFloat(change).toFixed(2)} (${changeSign}${parseFloat(changePercent).toFixed(2)}%)`;
+                priceChangeElement.className = `price-change ${changeClass}`;
+            }
+
+            timestampElement.textContent = `Last update: ${new Date().toLocaleTimeString()}`;
+
+            // Update target progress bar
+            const progress = Math.max(0, Math.min(1, price / targetPrice));
+            progressFill.style.width = `${(progress * 100).toFixed(1)}%`;
+            targetStatus.textContent = `${(progress * 100).toFixed(1)}% toward target`;
+            if (price >= targetPrice) {
+                targetReached.style.display = 'inline-block';
+            } else {
+                targetReached.style.display = 'none';
+            }
+        }
+
+        function connect() {
+            // Prevent multiple simultaneous connection attempts
+            if (isConnecting) {
+                console.log('Connection already in progress, skipping...');
+                return;
+            }
+
+            // Check if socket is already connected or connecting
+            if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
+                console.log('Socket already connected or connecting, skipping...');
+                return;
+            }
+
+            // Clear any existing reconnect timer
+            if (reconnectTimer) {
+                clearTimeout(reconnectTimer);
+                reconnectTimer = null;
+            }
+
+            isConnecting = true;
+
+            try {
+                socket = new WebSocket(wsUrl);
+
+                socket.onopen = () => {
+                    console.log('Connected to MEXC WebSocket');
+                    updateStatus('Connected', 'connected');
+                    reconnectAttempts = 0;
+                    isConnecting = false;
+
+                    // Subscribe to ETH_USDT ticker
+                    const subscribeMsg = {
+                        method: 'sub.ticker',
+                        param: {
+                            symbol: 'ETH_USDT'
+                        }
+                    };
+                    socket.send(JSON.stringify(subscribeMsg));
+                };
+
+                socket.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+
+                        // Heartbeat: respond to ping to keep the connection alive
+                        if (data.ping) {
+                            socket.send(JSON.stringify({ pong: data.ping }));
+                            return;
+                        }
+
+                        // Handle ticker push messages
+                        if (data.channel === 'push.ticker' && data.data && data.data.symbol === 'ETH_USDT') {
+                            const ticker = data.data;
+                            const price = parseFloat(ticker.last || ticker.lastPrice);
+                            // riseFallRate is in decimal format (0.01 = 1%), so multiply by 100
+                            const changePercent = parseFloat(ticker.riseFallRate || 0) * 100;
+                            // Calculate change amount from percentage
+                            const open24h = parseFloat(ticker.open24h || ticker.open || 0);
+                            const change = open24h ? (price - open24h) : (changePercent * price / 100);
+                            updatePrice(price, change, changePercent);
+                        }
+                        // Handle subscription confirmation
+                        else if (data.channel === 'sub.ticker' || data.method === 'sub.ticker') {
+                            console.log('Subscription confirmed:', data);
+                        }
+                        // Alternative format: direct ticker data
+                        else if (data.d && data.d.s === 'ETH_USDT') {
+                            const ticker = data.d;
+                            const price = parseFloat(ticker.p || ticker.lastPrice);
+                            // riseFallRate is in decimal format (0.01 = 1%), so multiply by 100
+                            const changePercent = parseFloat(ticker.riseFallRate || ticker.R || 0) * 100;
+                            // Calculate change amount from percentage
+                            const open24h = parseFloat(ticker.o || ticker.open24h || 0);
+                            const change = open24h ? (price - open24h) : (changePercent * price / 100);
+                            updatePrice(price, change, changePercent);
+                        }
+                    } catch (error) {
+                        console.error('Error parsing message:', error);
+                        console.log('Raw message:', event.data);
+                    }
+                };
+
+                socket.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                    updateStatus('Connection Error', 'disconnected');
+                };
+
+                socket.onclose = (event) => {
+                    console.log('WebSocket closed', event.code, event.reason);
+                    isConnecting = false;
+
+                    // Only show disconnected status if it wasn't a clean close or we're not already reconnecting
+                    if (socket.readyState === WebSocket.CLOSED) {
+                        updateStatus('Disconnected', 'disconnected');
+                        priceElement.textContent = 'Disconnected';
+                        priceElement.classList.add('loading');
+
+                        // Attempt to reconnect only if we haven't exceeded max attempts
+                        if (reconnectAttempts < maxReconnectAttempts && !reconnectTimer) {
+                            reconnectAttempts++;
+                            updateStatus('', 'connecting');
+                            reconnectTimer = setTimeout(() => {
+                                reconnectTimer = null;
+                                connect();
+                            }, reconnectDelay);
+                        } else if (reconnectAttempts >= maxReconnectAttempts) {
+                            updateStatus('Failed to connect', 'disconnected');
+                        }
+                    }
+                };
+
+            } catch (error) {
+                console.error('Error creating WebSocket:', error);
+                updateStatus('Connection Failed', 'disconnected');
+                isConnecting = false;
+            }
+        }
+
+        // Initial connection
+        connect();
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (socket) {
+                socket.close();
+            }
+        });
+    </script>
+    <script src="retro.js"></script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="media/banner.png" alt="ETH TO 5300 Banner" />
+                <!-- <div class="footer-logo-text">ETH TO 5300</div> -->
+            </div>
+            <div class="footer-links">
+                <a href="#about" class="footer-link">About</a>
+                <a href="#tokenomics" class="footer-link">Tokenomics</a>
+                <a href="#how-to-buy" class="footer-link">How to Buy</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://x.com" target="_blank" rel="noopener" class="footer-social-link">Twitter</a>
+                <a href="https://t.me" target="_blank" rel="noopener" class="footer-social-link">Telegram</a>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>© 2025 ETH TO 5300. All rights reserved.</p>
+            <p>Built on Base Chain</p>
+        </div>
+    </footer>
+</body>
+</html>
