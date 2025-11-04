@@ -291,12 +291,25 @@
             }
 
             .price {
-            font-size: 30px;
-            font-weight: 700;
-            color: #f7fafc;
-            margin: 5px 0;
-            transition: color 0.3s ease, transform 0.2s ease;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+                font-size: 30px;
+                font-weight: 700;
+                color: #f7fafc;
+                margin: 5px 0;
+                transition: color 0.3s ease, transform 0.2s ease;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            }
+            .container {
+            background: black;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
         }
 
@@ -776,12 +789,13 @@
             .reward-info p {
                 font-size: 13px;
             }
+
             .reward-stat-value {
-            color: #c9fd06;
-            font-size: 10px;
-            font-weight: 700;
-            font-family: "Press Start 2P", sans-serif;
-        }
+                color: #c9fd06;
+                font-size: 10px;
+                font-weight: 700;
+                font-family: "Press Start 2P", sans-serif;
+            }
         }
 
         .about-section h2,
@@ -1211,11 +1225,12 @@
             .how-to-buy-item.active .how-to-buy-item-content {
                 padding: 0 16px 12px 16px;
             }
+
             .how-to-buy-section {
-            width: 100%;
-            margin: 80px auto 40px;
-            padding: 0 20px;
-        }
+                width: 100%;
+                margin: 80px auto 40px;
+                padding: 0 0px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1398,7 +1413,8 @@
             <p>&nbsp;</p>
             <p class="contract-address-wrapper" style="word-spacing: -2px;">
                 <span class="yellow">Contract(click to copy):</span>
-                <span id="contractAddress" class="contract-address white">0xAbB7b059b20aC1557a302dA3955F841C35df5300</span>
+                <span id="contractAddress"
+                    class="contract-address white">0xAbB7b059b20aC1557a302dA3955F841C35df5300</span>
             </p>
         </div>
     </section>
@@ -1414,8 +1430,9 @@
                     </div>
                     <div class="how-to-buy-item-content">
                         <div class="how-to-buy-item-text">
-                            We are convinced that ETH should pump up to at least $5,300. 
-                            According to the charts, we're just about to start the ETH rally. This meme combines the prediction of 
+                            We are convinced that ETH should pump up to at least $5,300.
+                            According to the charts, we're just about to start the ETH rally. This meme combines the
+                            prediction of
                             Benjamin Cowen (as shown in the video above) with creating a meme on Base - $5300.
                         </div>
                     </div>
@@ -1427,8 +1444,9 @@
                     </div>
                     <div class="how-to-buy-item-content">
                         <div class="how-to-buy-item-text">
-                            What would be better than expecting ETH to pump 
-                            to $5,300? Buy a token that's paired with ETH and gives rewards on volume to all holders - fully 
+                            What would be better than expecting ETH to pump
+                            to $5,300? Buy a token that's paired with ETH and gives rewards on volume to all holders -
+                            fully
                             decentralized and fully automated rewards in wETH.
                         </div>
                     </div>
@@ -1440,9 +1458,11 @@
                     </div>
                     <div class="how-to-buy-item-content">
                         <div class="how-to-buy-item-text">
-                            Taxed projects are not generally loved, but what's the 
-                            difference here? We only have 1% tax on buy/sell, so the token is almost tax-free. Most importantly, 
-                            all collected tax from trading volume gets distributed back to holders - no maximum wallet, no marketing wallet.
+                            Taxed projects are not generally loved, but what's the
+                            difference here? We only have 1% tax on buy/sell, so the token is almost tax-free. Most
+                            importantly,
+                            all collected tax from trading volume gets distributed back to holders - no maximum wallet,
+                            no marketing wallet.
                         </div>
                     </div>
                 </div>
@@ -1453,7 +1473,7 @@
                     </div>
                     <div class="how-to-buy-item-content">
                         <div class="how-to-buy-item-text">
-                            Open your favorite exchange and withdraw the amount of ETH you wish 
+                            Open your favorite exchange and withdraw the amount of ETH you wish
                             to Base, sending it to your decentralized wallet address.
                         </div>
                     </div>
@@ -1465,8 +1485,10 @@
                     </div>
                     <div class="how-to-buy-item-content">
                         <div class="how-to-buy-item-text">
-                            Navigate to <a href="https://app.uniswap.org/" target="_blank" rel="noopener" style="color: #c9fd06; text-decoration: underline;">https://app.uniswap.org/</a>, 
-                            paste the contract address found in the tokenomics section, and swap some ETH for $5300 tokens.
+                            Navigate to <a href="https://app.uniswap.org/" target="_blank" rel="noopener"
+                                style="color: #c9fd06; text-decoration: underline;">https://app.uniswap.org/</a>,
+                            paste the contract address found in the tokenomics section, and swap some ETH for $5300
+                            tokens.
                         </div>
                     </div>
                 </div>
@@ -1509,16 +1531,16 @@
             const contractAddressElement = document.getElementById('contractAddress');
             if (contractAddressElement) {
                 const originalAddress = contractAddressElement.textContent.trim();
-                
+
                 // Format address to show first 5 and last 4 characters
                 const formatAddress = (address) => {
                     if (address.length <= 9) return address; // If address is too short, return as is
                     return address.substring(0, 5) + '...' + address.substring(address.length - 4);
                 };
-                
+
                 const displayAddress = formatAddress(originalAddress);
                 contractAddressElement.textContent = displayAddress;
-                
+
                 let copyTimeout = null;
 
                 contractAddressElement.style.cursor = 'pointer';
@@ -1528,7 +1550,7 @@
                     try {
                         // Copy to clipboard (full address)
                         await navigator.clipboard.writeText(originalAddress);
-                        
+
                         // Show "Copied" text
                         contractAddressElement.textContent = 'Copied!';
                         contractAddressElement.classList.remove('white');
@@ -1557,11 +1579,11 @@
                             contractAddressElement.textContent = 'Copied!';
                             contractAddressElement.classList.remove('white');
                             contractAddressElement.classList.add('green');
-                            
+
                             if (copyTimeout) {
                                 clearTimeout(copyTimeout);
                             }
-                            
+
                             copyTimeout = setTimeout(() => {
                                 contractAddressElement.textContent = displayAddress;
                                 contractAddressElement.classList.remove('green');
@@ -1810,4 +1832,5 @@
         </div>
     </footer>
 </body>
+
 </html>
