@@ -1801,12 +1801,105 @@
         // Initial connection
         connect();
 
+        // Wrap updatePrice to also update total ETH dollar value
+        const totalEthValueElement = document.getElementById('totalEthValue');
+        const originalUpdatePrice = updatePrice;
+        updatePrice = function(price, change, changePercent) {
+            originalUpdatePrice(price, change, changePercent);
+            
+            // Update dollar value if we have total distributed
+            if (totalEthValueElement && window.totalDistributedEth && window.totalDistributedEth > 0) {
+                const dollarValue = window.totalDistributedEth * price;
+                totalEthValueElement.textContent = `$${dollarValue.toFixed(2)}`;
+            }
+        };
+
         // Cleanup on page unload
         window.addEventListener('beforeunload', () => {
             if (socket) {
                 socket.close();
             }
         });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script>
+        // Wait for ethers to load, then fetch total ETH distributed
+        (function () {
+            const totalEthElement = document.getElementById('totalEth');
+            const totalEthValueElement = document.getElementById('totalEthValue');
+            const contractAddress = '0x5390867149182F1bE1659Fa1366544B2F6383778';
+            const baseRpcUrl = 'https://mainnet.base.org';
+            
+            let totalDistributedEth = 0;
+            
+            async function fetchTotalDistributed() {
+                try {
+                    if (typeof ethers === 'undefined') {
+                        console.log('Waiting for ethers library to load...');
+                        setTimeout(fetchTotalDistributed, 1000);
+                        return;
+                    }
+                    
+                    // Create provider for Base chain
+                    const provider = new ethers.providers.JsonRpcProvider(baseRpcUrl);
+                    
+                    // ABI for the totalDistributed function
+                    const abi = [
+                        {
+                            "inputs": [],
+                            "name": "totalDistributed",
+                            "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                            "stateMutability": "view",
+                            "type": "function"
+                        }
+                    ];
+                    
+                    // Create contract instance
+                    const contract = new ethers.Contract(contractAddress, abi, provider);
+                    
+                    // Call the function
+                    const totalDistributedWei = await contract.totalDistributed();
+                    
+                    // Convert from wei to ETH
+                    totalDistributedEth = parseFloat(ethers.utils.formatEther(totalDistributedWei));
+                    
+                    // Update ETH display
+                    if (totalEthElement) {
+                        totalEthElement.textContent = `${totalDistributedEth.toFixed(4)} ETH`;
+                    }
+                    
+                    // Calculate dollar value using current ETH price if available
+                    if (typeof lastPrice !== 'undefined' && lastPrice && totalEthValueElement) {
+                        const dollarValue = totalDistributedEth * lastPrice;
+                        totalEthValueElement.textContent = `$${dollarValue.toFixed(2)}`;
+                    }
+                } catch (error) {
+                    console.error('Error fetching total distributed:', error);
+                }
+            }
+            
+            // Start fetching after a short delay to ensure ethers is loaded
+            setTimeout(() => {
+                fetchTotalDistributed();
+                // Refresh every 30 seconds
+                setInterval(fetchTotalDistributed, 30000);
+            }, 1000);
+            
+            // Store totalDistributedEth globally for updatePrice function
+            window.totalDistributedEth = 0;
+            
+            // Update stored value when fetched
+            const originalFetch = fetchTotalDistributed;
+            fetchTotalDistributed = async function() {
+                await originalFetch();
+                window.totalDistributedEth = totalDistributedEth;
+                // Update dollar value if we have price
+                if (typeof lastPrice !== 'undefined' && lastPrice && totalEthValueElement) {
+                    const dollarValue = totalDistributedEth * lastPrice;
+                    totalEthValueElement.textContent = `$${dollarValue.toFixed(2)}`;
+                }
+            };
+        })();
     </script>
     <script src="retro.js"></script>
 
